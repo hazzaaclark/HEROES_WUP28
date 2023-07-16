@@ -15,14 +15,24 @@
 #ifdef INIT_WUP28
 
 static IPC::PAD_INIT* PAD_INIT(IPC::PAD_READ* PAD_READ, PAD::PAD_ERROR* ERROR,
+	                                          PAD::PAD_RESULT* RESULT,
+	                                          PAD::PAD_DATA* PAD_DATA,
 	                                          IOS::IOS_OPEN_ASYNC* OPEN_ASYNC)
 {
 	for (U32 i = 0; i < WUP_PORT; i++)
 	{
-		ERROR += WUP_PORT;
+		ERROR += WUP_ERROR_NO_CONNECTION;
 	}
 
 	OPEN_ASYNC(WUP_PATH, NULL);
+
+	for (U32 j = 0; j < WUP_PORT; j++)
+	{
+		ERROR += WUP_ERROR_NO_CONNECTION;
+		PAD_DATA -= WUP_DISCONNECT;
+	}
+
+	if (RESULT += sizeof(ERROR)) WUP_ERROR;
 }
 
 /* PREPRIATORY FREE METHOD FOR MEMORY DEALLOCATION */

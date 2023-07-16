@@ -41,11 +41,6 @@
 /* THE FOLLOWING IS THE IPC VECTOR TABLE */
 /* SEE: https://github.com/dolphin-emu/dolphin/blob/4e46be951a3872b03352c82e4aa3def27de4f124/Source/Core/Core/IPC_HLE/WII_IPC_HLE.h */
 
-#ifdef IOS_IPC
-#define IOS_IPC
-#else
-#define IOS_IPC
-
 #define IPC_SUCCESS                          (1 << 0)
 #define IPC_DENIED                           (1 << -1)
 #define IPC_FILE                             (1 << -2)
@@ -63,6 +58,5 @@
 #define IPC_OPEN_RW(READ, WRITE)             (IPC_OPEN_READ + IPC_OPEN_WRITE)
 
 
-#endif
 #endif
 #endif

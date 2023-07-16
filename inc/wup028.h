@@ -14,7 +14,9 @@
 
 /* SYSTEM INCLUDES */
 
+#include <cstdio>
 #include <stdio.h>
+#include <stdlib.h>
 
 #if defined(INIT_WUP28)
 #define INIT_WUP28 

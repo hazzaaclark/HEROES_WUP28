@@ -31,6 +31,10 @@
 #define WUP_TRIGGER                        170
 #define WUP_PATH                            ""
 
+#define WUP_ERROR_NONE                       0
+#define WUP_ERROR_NO_CONNECTION             -1
+#define WUP_ERROR                           -2
+
 /* DEFINE THE TIME IN MILLISECONDS TO REPRESENT */
 /* THE DISCONNECTION */
 
@@ -84,8 +88,9 @@ typedef struct IOS
 
 typedef struct PAD
 {
-	typedef PAD_RES PAD_RESULT[WUP_PORT];
+	typedef PAD_RES* PAD_RESULT;
 	typedef U8 PAD_ERROR;
+	typedef U32 PAD_DATA;
 };
 
 #endif

@@ -34,6 +34,16 @@
 #define WUP_TIME *(243000/4)
 #define WUP_DISCONNECT (1500 WUP_TIME)
 
+/* TAKING INTO ACCOUNT THE HEX VALUES FOR THE PAD DATA */
+
+#define WUP_BUTTONS                        0x0
+#define WUP_STICK_X                        0x2
+#define WUP_STICK_Y                        0x3
+#define WUP_CSTICK_X                       0x4
+#define WUP_CSTICK_Y                       0x5
+#define WUP_LB                             0x6
+#define WUP_RB                             0x7
+ 
 /* TAKING INTO ACCOUNT THE IPC SCHEMA FROM THE WII */
 /* IPC DICTATES THE FUNCTIONALITY THAT SERVES AS THE IO FOR THE WII */
 /* DETERMINING THE FLAGS AND REGISTERS AND IRQ'S NECESSARY FOR HARDWARE INITIALISATION */
@@ -57,6 +67,23 @@
 #define IPC_OPEN_WRITE                                                      2
 #define IPC_OPEN_RW(READ, WRITE)             (IPC_OPEN_READ + IPC_OPEN_WRITE)
 
+/* CREATE A MASTER STRUCTURE FOR THE IPC BUS' FUNCTIONALITY */
+/* THIS PERTAINS TO THE ACCESS OF USER INPUTS AND THEIR RESPECTIVE RESULTS */
+
+typedef struct IPC
+{
+	typedef void PAD_INIT(void);
+	typedef void PAD_READ(IPC_RES* RESULT);
+	typedef void PAD_PORT(U32 PAD, U32 CONTROL);
+
+};
+
+typedef struct IPC_RES;
+
+typedef struct IOS
+{
+
+};
 
 #endif
 #endif

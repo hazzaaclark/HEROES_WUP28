@@ -27,6 +27,7 @@
 #define WUP_ALIGN __attribute__((aligned(32)))
 #define WUP_PORT                             4
 #define WUP_TRIGGER                        170
+#define WUP_PATH                            ""
 
 /* DEFINE THE TIME IN MILLISECONDS TO REPRESENT */
 /* THE DISCONNECTION */
@@ -34,16 +35,6 @@
 #define WUP_TIME *(243000/4)
 #define WUP_DISCONNECT (1500 WUP_TIME)
 
-/* TAKING INTO ACCOUNT THE HEX VALUES FOR THE PAD DATA */
-
-#define WUP_BUTTONS                        0x0
-#define WUP_STICK_X                        0x2
-#define WUP_STICK_Y                        0x3
-#define WUP_CSTICK_X                       0x4
-#define WUP_CSTICK_Y                       0x5
-#define WUP_LB                             0x6
-#define WUP_RB                             0x7
- 
 /* TAKING INTO ACCOUNT THE IPC SCHEMA FROM THE WII */
 /* IPC DICTATES THE FUNCTIONALITY THAT SERVES AS THE IO FOR THE WII */
 /* DETERMINING THE FLAGS AND REGISTERS AND IRQ'S NECESSARY FOR HARDWARE INITIALISATION */
@@ -75,14 +66,24 @@ typedef struct IPC
 	typedef void PAD_INIT(void);
 	typedef void PAD_READ(IPC_RES* RESULT);
 	typedef void PAD_PORT(U32 PAD, U32 CONTROL);
-
 };
 
 typedef struct IPC_RES;
+typedef struct PAD_RES;
 
 typedef struct IOS
 {
+	typedef U32 IOS_DATA;
+	typedef U32 IOS_RETURN;
 
+	typedef IOS_DATA IOS_OPEN(const char* FILE_PATH);
+	typedef IOS_RETURN IOS_OPEN_ASYNC(const char* PATH, void* USER_DATA);
+};
+
+typedef struct PAD
+{
+	typedef PAD_RES PAD_RESULT[WUP_PORT];
+	typedef U8 PAD_ERROR;
 };
 
 #endif

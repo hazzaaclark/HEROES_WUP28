@@ -29,14 +29,14 @@
 #define WUP_ALIGN __attribute__((aligned(32)))
 #define WUP_PORT                             4
 #define WUP_TRIGGER                        170
-#define WUP_PATH                            ""
 
 #define WUP_ERROR_NONE                       0
 #define WUP_ERROR_NO_CONNECTION             -1
-#define WUP_ERROR                           -2
+#define WUP_ERROR                           -2        
 
-/* DEFINE THE TIME IN MILLISECONDS TO REPRESENT */
-/* THE DISCONNECTION */
+#define WUP_BRA                              U32
+
+/* DEFINE THE TIME IN MILLISECONDS TO REPRESENT THE DISCONNECTION */
 
 #define WUP_TIME *(243000/4)
 #define WUP_DISCONNECT (1500 WUP_TIME)
@@ -84,6 +84,9 @@ typedef struct IOS
 
 	typedef IOS_DATA IOS_OPEN(const char* FILE_PATH);
 	typedef IOS_RETURN IOS_OPEN_ASYNC(const char* PATH, void* USER_DATA);
+
+	typedef U32 CPU_BRA(void);
+	static void CPU_BRA_RESTORE(U32 BRA);
 };
 
 typedef struct PAD

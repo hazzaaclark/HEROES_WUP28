@@ -26,11 +26,11 @@
 #define WUP_ID                             0x57E03337 /* HARDWARE ID PROVIDED BY DEVICE MANAGER */
 #define WUP_SIZE                           0x25
 
-#define WUP_ALIGN __attribute__((aligned(32)))
+#define WUP_ALIGN                          __attribute__((aligned(32)))
 #define WUP_PORT                             4
 #define WUP_TRIGGER                        170
 
-#define WUP_ERROR_NONE                       0
+#define WUP_SUCCESS                          0
 #define WUP_ERROR_NO_CONNECTION             -1
 #define WUP_ERROR_ACCESS                    -2
 #define WUP_ERROR_IO                        -3

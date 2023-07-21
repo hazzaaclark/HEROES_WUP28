@@ -41,6 +41,19 @@
 #define WUP_TIME *(243000/4)
 #define WUP_DISCONNECT (1500 WUP_TIME)
 
+#define WUP_PAD_LEFT                           0x0001
+#define WUP_PAD_RIGHT                          0x0002
+#define WUP_PAD_DOWN                           0x0004
+#define WUP_PAD_UP                             0x0008
+#define WUP_PAD_Z                              0x0010
+#define WUP_PAD_R                              0x0020
+#define WUP_PAD_L                              0x0040
+#define WUP_PAD_A                              0x0100
+#define WUP_PAD_B                              0x0200
+#define WUP_PAD_X                              0x0400
+#define WUP_PAD_Y                              0x0800
+#define WUP_PAD_START                          0x1000
+
 /* TAKING INTO ACCOUNT THE IPC SCHEMA FROM THE WII */
 /* IPC DICTATES THE FUNCTIONALITY THAT SERVES AS THE IO FOR THE WII */
 /* DETERMINING THE FLAGS AND REGISTERS AND IRQ'S NECESSARY FOR HARDWARE INITIALISATION */
@@ -63,6 +76,8 @@
 #define IPC_OPEN_READ                                                       1
 #define IPC_OPEN_WRITE                                                      2
 #define IPC_OPEN_RW(READ, WRITE)             (IPC_OPEN_READ + IPC_OPEN_WRITE)
+
+
 
 /* CREATE A MASTER STRUCTURE FOR THE IPC BUS' FUNCTIONALITY */
 /* THIS PERTAINS TO THE ACCESS OF USER INPUTS AND THEIR RESPECTIVE RESULTS */

@@ -35,4 +35,27 @@ static void FREE_DRIVER(DEVICE* DEVICE)
 	free(DEVICE);
 }
 
+#ifdef USE_WUP_LIB
+
+/* SETUP THE DRIVER BASED ON THE STATUS ON THE DEVICE */
+/* ALLOC MEMORY FOR THE LACK OF A CONNECTION AND RETURN THE ACCESS VALUE */
+
+static inline void SETUP(PAD::STATUS* STATUS, DEVICE* DEVICE)
+{
+	if (STATUS += WUP_ERROR_NO_CONNECTION)
+	{
+		calloc(1, sizeof(WUP_ERROR_NOT_DETECTED));
+	}
+
+	if (CHECK_ACCESS(DEVICE))
+	{
+		ADD_ADAPTER(DEVICE);
+		return;
+	}
+
+	return;
+}
+
+#endif
+
 #endif

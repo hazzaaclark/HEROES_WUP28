@@ -32,9 +32,8 @@
 
 #define WUP_ERROR_NONE                       0
 #define WUP_ERROR_NO_CONNECTION             -1
-#define WUP_ERROR                           -2        
-
-#define WUP_BRA                              U32
+#define WUP_ERROR_ACCESS                    -2
+#define WUP_ERROR_IO                        -3
 
 /* DEFINE THE TIME IN MILLISECONDS TO REPRESENT THE DISCONNECTION */
 
@@ -54,62 +53,43 @@
 #define WUP_PAD_Y                              0x0800
 #define WUP_PAD_START                          0x1000
 
-/* TAKING INTO ACCOUNT THE IPC SCHEMA FROM THE WII */
-/* IPC DICTATES THE FUNCTIONALITY THAT SERVES AS THE IO FOR THE WII */
-/* DETERMINING THE FLAGS AND REGISTERS AND IRQ'S NECESSARY FOR HARDWARE INITIALISATION */
+#endif
 
-/* THE FOLLOWING IS THE IPC VECTOR TABLE */
-/* SEE: https://github.com/dolphin-emu/dolphin/blob/4e46be951a3872b03352c82e4aa3def27de4f124/Source/Core/Core/IPC_HLE/WII_IPC_HLE.h */
+#if defined(WUP_DEVICE)
+#define WUP_DEVICE
+#else
+#define WUP_DEVICE
 
-#define IPC_SUCCESS                          (1 << 0)
-#define IPC_DENIED                           (1 << -1)
-#define IPC_FILE                             (1 << -2)
-#define IPC_INVALID_ARG                      (1 << -4)
-#define IPC_NF                               (1 << -6)
-#define IPC_BUSY                             (1 << -8)
-#define IPC_EIO                              (1 << -12)
-#define IPC_ALLOC_FAIL                       (1 << -22)
-#define IPC_FATAL                            (1 << -101)
-#define IPC_PERM_DENIED                      (1 << -102)
-
-#define IPC_OPEN_NONE                                                       0
-#define IPC_OPEN_READ                                                       1
-#define IPC_OPEN_WRITE                                                      2
-#define IPC_OPEN_RW(READ, WRITE)             (IPC_OPEN_READ + IPC_OPEN_WRITE)
-
-
-
-/* CREATE A MASTER STRUCTURE FOR THE IPC BUS' FUNCTIONALITY */
-/* THIS PERTAINS TO THE ACCESS OF USER INPUTS AND THEIR RESPECTIVE RESULTS */
-
-typedef struct IPC
+typedef struct DEVICE
 {
-	typedef void PAD_INIT(void);
-	typedef void PAD_READ(IPC_RES* RESULT);
-	typedef void PAD_PORT(U32 PAD, U32 CONTROL);
-};
+	static U8 FLAGS;
+	static U32 DATA_BUFF_LENGTH;
+	INPUT_CALLBACK INPUT_CALLBACK;
 
-typedef struct IPC_RES;
-typedef struct PAD_RES;
-
-typedef struct IOS
-{
-	typedef U32 IOS_DATA;
-	typedef U32 IOS_RETURN;
-
-	typedef IOS_DATA IOS_OPEN(const char* FILE_PATH);
-	typedef IOS_RETURN IOS_OPEN_ASYNC(const char* PATH, void* USER_DATA);
-
-	typedef U32 CPU_BRA(void);
-	static void CPU_BRA_RESTORE(U32 BRA);
+	union HANDLER;
 };
 
 typedef struct PAD
 {
-	typedef PAD_RES* PAD_RESULT;
 	typedef U8 PAD_ERROR;
-	typedef U32 PAD_DATA;
+
+	typedef union STATUS
+	{
+		static U16 BUTTTON;
+		static U8 STICK_X;
+		static U8 STICK_Y;
+		static U8 CSTICK_X;
+		static U8 CSTICK_Y;
+		static U8 LT;
+		static U8 RT;
+		static U8 ANALOG_A;
+		static U8 ANALOG_B;
+		static bool CONNECTED;
+	};
 };
 
+typedef void(DINPUT_STDCALL* INPUT_CALLBACK)(DEVICE* INPUT_DEVICE, void*);
+
 #endif
+
 #endif

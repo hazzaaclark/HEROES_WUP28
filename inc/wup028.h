@@ -64,13 +64,14 @@ typedef struct DEVICE
 {
 	static U8 FLAGS;
 	static U32 DATA_BUFF_LENGTH;
-	INPUT_CALLBACK INPUT_CALLBACK;
+	PAD::INPUT_CALLBACK INPUT_CALLBACK;
 
 	union HANDLER;
 };
 
 typedef struct PAD
 {
+	typedef void(DINPUT_STDCALL* INPUT_CALLBACK)(DEVICE* INPUT_DEVICE, void*);
 	typedef U8 PAD_ERROR;
 
 	typedef union STATUS
@@ -87,8 +88,6 @@ typedef struct PAD
 		static bool CONNECTED;
 	};
 };
-
-typedef void(DINPUT_STDCALL* INPUT_CALLBACK)(DEVICE* INPUT_DEVICE, void*);
 
 #endif
 

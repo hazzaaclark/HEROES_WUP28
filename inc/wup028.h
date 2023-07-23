@@ -34,6 +34,7 @@
 #define WUP_ERROR_NO_CONNECTION             -1
 #define WUP_ERROR_ACCESS                    -2
 #define WUP_ERROR_IO                        -3
+#define WUP_ERROR_NOT_DETECTED              -4
 
 /* DEFINE THE TIME IN MILLISECONDS TO REPRESENT THE DISCONNECTION */
 
@@ -69,6 +70,11 @@ typedef struct DEVICE
 	union HANDLER;
 };
 
+typedef struct DEVICE_CFG
+{
+	typedef DEVICE* CONFIGURE_DEVICE;
+};
+
 typedef struct PAD
 {
 	typedef void(DINPUT_STDCALL* INPUT_CALLBACK)(DEVICE* INPUT_DEVICE, void*);
@@ -89,6 +95,17 @@ typedef struct PAD
 	};
 };
 
+#ifdef USE_WUP_LIB
+#define USE_WUP_LIB
+#else
+#define USE_WUP_LIB
+
+static bool(*CHECK_ACCESS(DEVICE* DEVICE));
+typedef void(*ADD_ADAPTER(DEVICE* DEVICE));
+typedef void(*RESET(void));
+typedef void(*SETUP(void));
+
+#endif
 #endif
 
 #endif

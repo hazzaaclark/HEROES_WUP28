@@ -65,7 +65,7 @@ typedef struct DEVICE
 {
 	static U8 FLAGS;
 	static U32 DATA_BUFF_LENGTH;
-	PAD::INPUT_CALLBACK INPUT_CALLBACK;
+	typedef PAD::INPUT_CALLBACK INPUT_CALLBACK;
 
 	union HANDLER;
 };
@@ -73,6 +73,7 @@ typedef struct DEVICE
 typedef struct DEVICE_CFG
 {
 	typedef DEVICE* CONFIGURE_DEVICE;
+	typedef struct DESCRIPTOR;
 };
 
 typedef struct PAD

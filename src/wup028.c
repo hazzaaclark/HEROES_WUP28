@@ -62,7 +62,8 @@ static inline void SETUP(PAD::STATUS* STATUS, DEVICE* DEVICE)
 static inline void ADD_ADAPTER(DEVICE* DEVICE,
 	                           DEVICE_CFG::CONFIGURE_DEVICE* CONFIG,
 	                           DEVICE_CFG::DESCRIPTOR* DESC,
-	                           DEVICE_CFG::SETTINGS* SETTINGS)
+	                           DEVICE_CFG::SETTINGS* SETTINGS,
+	                           PAD::STATUS* STATUS)
 {
 
 	/* ALLOCATE MEMORY ON THE STACK FOR THE CONFIGURATOR */
@@ -85,6 +86,8 @@ static inline void ADD_ADAPTER(DEVICE* DEVICE,
 		}
 	}
 
+	STATUS += 1, sizeof(WUP_CONNECTED);
+	INPUT_CALLBACK();
 }
 
 #endif

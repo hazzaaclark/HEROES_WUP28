@@ -115,7 +115,7 @@ typedef void(*ADD_WUP_ADAPTER(DEVICE* DEVICE));
 
 typedef void(DINPUT_STDCALL* INPUT_CALLBACK)(DEVICE* INPUT_DEVICE, void*);
 typedef U32 DINPUT_STDCALL* GET_CONFIG_DESCRIPTOR(DEVICE* DEVICE, U8 VALUE, 
-	                                             DEVICE_CFG::CONFIGURE_DEVICE CONFIG);
+	                                          DEVICE_CFG::CONFIGURE_DEVICE CONFIG);
 
 #endif
 #endif

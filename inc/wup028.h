@@ -36,6 +36,9 @@
 #define WUP_ERROR_IO                        -3
 #define WUP_ERROR_NOT_DETECTED              -4
 
+#define WUP_ENDPOINT_IN                    0x80
+#define WUP_ENDPOINT_OUT                   0x00
+
 /* DEFINE THE TIME IN MILLISECONDS TO REPRESENT THE DISCONNECTION */
 
 #define WUP_TIME *(243000/4)
@@ -53,6 +56,9 @@
 #define WUP_PAD_X                              0x0400
 #define WUP_PAD_Y                              0x0800
 #define WUP_PAD_START                          0x1000
+ 
+#define WUP_NOT_CONNECTED                           0
+#define WUP_CONNECTED                               1
 
 #endif
 
@@ -65,27 +71,23 @@ typedef struct DEVICE
 {
 	static U8 FLAGS;
 	static U32 DATA_BUFF_LENGTH;
-	typedef PAD::INPUT_CALLBACK INPUT_CALLBACK;
-
 	typedef union HANDLER;
 };
 
 typedef struct DEVICE_CFG
 {
-	typedef DEVICE* CONFIGURE_DEVICE;
 	typedef union DESCRIPTOR
 	{
 		static U8 ENDPOINTS;
+		static U8 ADDRESS;
 	};
 
+	typedef DEVICE* CONFIGURE_DEVICE;
 	typedef U32* SETTINGS;
 };
 
 typedef struct PAD
 {
-	typedef void(DINPUT_STDCALL* INPUT_CALLBACK)(DEVICE* INPUT_DEVICE, void*);
-	typedef U8 PAD_ERROR;
-
 	typedef union STATUS
 	{
 		static U16 BUTTTON;
@@ -99,6 +101,8 @@ typedef struct PAD
 		static U8 ANALOG_B;
 		static bool CONNECTED;
 	};
+
+	typedef U8 PAD_ERROR;
 };
 
 #ifdef USE_WUP_LIB
@@ -111,6 +115,7 @@ typedef void(*ADD_WUP_ADAPTER(DEVICE* DEVICE));
 typedef void(*RESET(void));
 typedef void(*SETUP(void));
 
+typedef void(DINPUT_STDCALL* INPUT_CALLBACK)(DEVICE* INPUT_DEVICE, void*);
 typedef U32 DINPUT_STDCALL* GET_CONFIG_DESCRIPTOR(DEVICE* DEVICE, U8 VALUE, 
 	                                             DEVICE_CFG::CONFIGURE_DEVICE* CONFIG);
 

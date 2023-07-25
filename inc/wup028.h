@@ -67,13 +67,18 @@ typedef struct DEVICE
 	static U32 DATA_BUFF_LENGTH;
 	typedef PAD::INPUT_CALLBACK INPUT_CALLBACK;
 
-	union HANDLER;
+	typedef union HANDLER;
 };
 
 typedef struct DEVICE_CFG
 {
 	typedef DEVICE* CONFIGURE_DEVICE;
-	typedef struct DESCRIPTOR;
+	typedef union DESCRIPTOR
+	{
+		static U8 ENDPOINTS;
+	};
+
+	typedef U32* SETTINGS;
 };
 
 typedef struct PAD
@@ -102,9 +107,12 @@ typedef struct PAD
 #define USE_WUP_LIB
 
 static bool(*CHECK_ACCESS(DEVICE* DEVICE));
-typedef void(*ADD_ADAPTER(DEVICE* DEVICE));
+typedef void(*ADD_WUP_ADAPTER(DEVICE* DEVICE));
 typedef void(*RESET(void));
 typedef void(*SETUP(void));
+
+typedef U32 DINPUT_STDCALL* GET_CONFIG_DESCRIPTOR(DEVICE* DEVICE, U8 VALUE, 
+	                                             DEVICE_CFG::CONFIGURE_DEVICE* CONFIG);
 
 #endif
 #endif

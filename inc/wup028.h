@@ -10,7 +10,7 @@
 /* NESTED INCLUDES */
 
 #include "common.h"
-#include "dinput.h"
+#include "detours.h"
 
 /* SYSTEM INCLUDES */
 
@@ -76,14 +76,10 @@ typedef struct DEVICE
 
 typedef struct DEVICE_CFG
 {
-	typedef union DESCRIPTOR
-	{
-		static U8 ENDPOINTS;
-		static U8 ADDRESS;
-	};
-
-	typedef DEVICE* CONFIGURE_DEVICE;
-	typedef U32* SETTINGS;
+	static U8 ENDPOINTS;
+	static U8 ADDRESS;
+	static DEVICE* CONFIGURE_DEVICE;
+	static U32* SETTINGS;
 };
 
 typedef struct PAD
@@ -113,9 +109,11 @@ typedef struct PAD
 static bool(*CHECK_ACCESS(DEVICE* DEVICE));
 typedef void(*ADD_WUP_ADAPTER(DEVICE* DEVICE));
 
-typedef void(DINPUT_STDCALL* INPUT_CALLBACK)(DEVICE* INPUT_DEVICE, void*);
-typedef U32 DINPUT_STDCALL* GET_CONFIG_DESCRIPTOR(DEVICE* DEVICE, U8 VALUE, 
-	                                          DEVICE_CFG::CONFIGURE_DEVICE CONFIG);
+typedef U32* INPUT_CALLBACK;
+typedef U32 GET_CONFIG_DESCRIPTOR(DEVICE DEVICE, U8 VALUE);
+
+static void FREE_SCAN(void);
+static void RESET_ADAPTER(void);
 
 #endif
 #endif

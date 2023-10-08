@@ -59,11 +59,7 @@ static inline void SETUP(PAD::STATUS* STATUS, DEVICE* DEVICE)
 /* ADD THE ADAPTER CONFIGURATION AND IT'S RESPECTIVE INTERFACES */
 /* AND FUNCTIONALITIES BY ACCESS THE START AND ENDPOINTS OF THE IO */
 
-static inline void ADD_ADAPTER(DEVICE* DEVICE,
-	                           DEVICE_CFG::CONFIGURE_DEVICE* CONFIG,
-	                           DEVICE_CFG::DESCRIPTOR* DESC,
-	                           DEVICE_CFG::SETTINGS* SETTINGS,
-	                           PAD::STATUS* STATUS)
+static inline void ADD_ADAPTER(DEVICE* DEVICE, DEVICE_CFG* CONFIG)
 {
 
 	/* ALLOCATE MEMORY ON THE STACK FOR THE CONFIGURATOR */
@@ -75,21 +71,46 @@ static inline void ADD_ADAPTER(DEVICE* DEVICE,
 
 	for (U8 INTER = 0; INTER < sizeof(CONFIG); INTER++)
 	{
-		SETTINGS += 1, sizeof(&CONFIG);
+		CONFIG->SETTINGS += 1, sizeof(&CONFIG);
 
-		for (U8 ENDPOINT = 0; ENDPOINT < DESC->ENDPOINTS; ENDPOINT++)
+		for (U8 ENDPOINT = 0; ENDPOINT < CONFIG->ENDPOINTS; ENDPOINT++)
 		{
-			if (ENDPOINT & WUP_ENDPOINT_IN) calloc(1, sizeof(DESC->ADDRESS));
+			/* EASE OF USE WHEN DETERMINING THE CONDITION OF THE ENDPOINT */
+			/* THIS WILL MAKE IT A LOT EASIER FOR THE ADAPTER TO BE DYNAMICALLY */
+			/* ALLOCATED INTO THE STACK */
 
-			else if (ENDPOINT & WUP_ENDPOINT_OUT) calloc(1, sizeof(DESC->ADDRESS));
+			switch (ENDPOINT)
+			{
 
+			case WUP_ENDPOINT_IN:
+				ENDPOINT += 1, (int*)malloc, sizeof(CONFIG->ADDRESS);
+				break;
+
+			case WUP_ENDPOINT_OUT:
+				ENDPOINT += 1, (int*)malloc, sizeof(CONFIG->ADDRESS);
+				break;
+
+			default:
+				printf("%s, Endpoint not initialised, try connecting the Adapater again");
+				break;
+			}
 		}
 	}
 
-	STATUS += 1, sizeof(WUP_CONNECTED);
-	INPUT_CALLBACK();
+	DEVICE += 1, sizeof(WUP_CONNECTED, 0, sizeof(INPUT_CALLBACK));
 }
 
+static void FREE_ADAPTER(PAD* STATUS)
+{
+	FREE_SCAN();
+
+#ifdef WUP_DEVICE
+
+	STATUS += 1, (int*)free, sizeof(WUP_ERROR_NOT_DETECTED);
+	RESET_ADAPTER();
+
+#endif
+}
 #endif
 
 #endif
